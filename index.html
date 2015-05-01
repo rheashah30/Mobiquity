@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Calender App</title>
+	<!-- General META -->
+	<meta charset="utf-8">
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- Semantic META -->
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	
+		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.min.css">
+
+	<!-- HTML5 Shim -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+
+<body class="ng-cloak" ng-app="calApp" style = "background-color: #b0c4de">
+	<div class="container">
+		<div ng-controller="calCtrl" class="row">
+			<h1>My Calender App</h1>
+			<aside class="col-md-3">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">Choose date using calender</h3>
+				  </div>
+				  <div class="panel-body">
+				    <datepicker ng-model="dt" min-date="minDate" show-weeks="false"></datepicker>
+				  </div>
+				</div>
+			</aside>	
+
+				<div class="panel panel-default col-md-9" style="margin-bottom : 0 ; height : 300px">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">Add Event for selected date</h3>
+				  </div>
+				  <div class="panel-body">
+				  	
+				  	<div class="form-group">
+						<label >Event Name</label>
+						<input type="text" ng-model="eventName">
+					</div>
+				  	<div class="form-group" style="float : left ;width : 150px " >
+						<label for="exampleInputEmail1">Start Time</label>
+						<timepicker ng-model="startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+					</div>
+				  	<div class="form-group" style="float : left ; width : 150px" >
+						<label for="exampleInputEmail1">End Time</label>
+						<timepicker ng-model="endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+					</div>
+					<div style="clear : both"></div>
+					<button  class="btn-primary btn" ng-disabled="!dt || !startTime || !endTime || !eventName" ng-click="createEvent();" >Create Event</button>
+				  </div>
+				 
+				</div>
+
+			
+			<main class="col-md-12" style="padding-right :0"  >
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title" ng-if="dt">
+						Displaying Events for date: {{dt|date}}
+					</h3>
+					<h3 class="panel-title" ng-if="!dt">
+						Please select a date to display event.
+					</h3>
+				  </div>
+				  <div class="panel-body">
+				    	<div class="well well-sm" ng-repeat="event in events" ng-if="currentDate(event)">
+				    		<h4>Event Name: {{event.name}}</h4>
+				    		<div>Start Time: {{event.startTime}}</div>
+				    		<div>End Time: {{event.endTime}}</div>
+				    		<button class="btn btn-danger" ng-click="removeEvent($index)">Delete this envent</button>
+				    	</div>
+				    	<div class="well well-sm" ng-if="!events">
+				    		<h4>There are not events to display for selected date</h4>
+				    	</div>
+				  </div>
+				</div>
+			</main>
+		</div>
+	</div>	
+
+	<script type="text/javascript" src="lib/moment/min/moment.min.js"></script>
+	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="lib/angular-ui-utils/ui-utils.min.js"></script>
+	<script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="application.js"></script>
+</body>
+
+</html>
